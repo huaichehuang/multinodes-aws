@@ -14,7 +14,7 @@ class Ec2MultiNodesStack(core.Stack):
         cluster_name = 'dev-ec2-%s' % name
 
         # Instance type
-        ec2_type = "t3.large"
+        ec2_type = "t3a.large"
 
         # Provide VPC
         vpc = ec2.Vpc(self,
