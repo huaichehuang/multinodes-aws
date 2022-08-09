@@ -2,11 +2,11 @@
 This repository provides the reference multi-nodes environment to install PrimeHub.
 
 It will create these resources
-1. Create 3 VMs for k8s nodes (10.40.0.11, 10.40.0.11, 10.40.0.13)
-1. Create 1 VM for NFS and Harbor (10.40.0.14)
+1. Create 3 VMs for k8s nodes (10.20.0.11, 10.20.0.12, 10.20.0.13)
+1. Create 1 VM for NFS and Harbor (10.20.0.14)
 1. All 4 VMs are in the same VPC
 1. All 4 VMs have public IPs
-1. The OS image is AWS official Ubuntu 18.04 LTS
+1. The OS image is AWS official RHEL 7.9 20220512
 
 # Prerequisites
 
@@ -42,17 +42,17 @@ ssh -i /path/to/saved_private_key -A ubuntu@<public_ip>
 After logging in the first node, you can log in to other nodes via private IP
 
 ```bash
-ssh -A 10.40.0.11
-ssh -A 10.40.0.12
-ssh -A 10.40.0.13
-ssh -A 10.40.0.14
+ssh -A 10.20.0.11
+ssh -A 10.20.0.12
+ssh -A 10.20.0.13
+ssh -A 10.20.0.14
 ```
 
 Optionally, you can connect to server with name. Edit the `~/.ssh/config`, add these settings
 
 ```bash
 Host my_cluster_name
-    User ubuntu
+    User rhel
     IdentityFile /path/to/saved_private_key
     Hostname 1.2.3.4
     ForwardAgent yes
