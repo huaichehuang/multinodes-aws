@@ -11,7 +11,7 @@ class Ec2MultiNodesStack(core.Stack):
     def __init__(self, scope: core.Construct, id: str, name: str, key_name: str, **kwargs):
         super().__init__(scope, id, **kwargs)
 
-        cluster_name = 'dev-ec2-%s' % name
+        cluster_name = 'dev-ec2-test-%s' % name
 
         # Instance type
         ec2_type = "t3a.xlarge"
@@ -91,8 +91,8 @@ if key_name == '':
 
 app = core.App()
 
-ec2_stack = Ec2MultiNodesStack(app, "dev-ec2-%s" % name, name, key_name, env=core.Environment(region=region))
+ec2_stack = Ec2MultiNodesStack(app, "dev-ec2-test-%s" % name, name, key_name, env=core.Environment(region=region))
 core.Tag.add(ec2_stack, "owner", username)
-core.Tag.add(ec2_stack, "clusterType", 'dev-ec2')
+core.Tag.add(ec2_stack, "clusterType", 'dev-ec2-test')
 
 app.synth()
