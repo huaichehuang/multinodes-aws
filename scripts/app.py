@@ -14,12 +14,12 @@ class Ec2MultiNodesStack(core.Stack):
         cluster_name = 'dev-ec2-%s' % name
 
         # Instance type
-        ec2_type = "t3a.large"
+        ec2_type = "t3a.xlarge"
 
         # Provide VPC
         vpc = ec2.Vpc(self,
             cluster_name,
-            cidr="10.40.0.0/16",
+            cidr="10.20.0.0/16",
             nat_gateways=0,
             subnet_configuration=[ec2.SubnetConfiguration(
                 cidr_mask=26,
@@ -38,9 +38,9 @@ class Ec2MultiNodesStack(core.Stack):
 
         self.add_security_rules(sg)
 
-        # We use the AWS official Ubuntu 18.04 LTS
+        # We use the AWS official RHEL 7.9
         image = ec2.GenericLinuxImage({
-            "ap-northeast-1": "ami-0ef85cf6e604e5650"
+            "ap-northeast-1": "ami-0073b6113281aa32e"
         })
 
         host_ips = []
@@ -54,7 +54,7 @@ class Ec2MultiNodesStack(core.Stack):
 
     def add_security_rules(self, sg):
         sg.add_ingress_rule(
-            peer=ec2.Peer.ipv4("10.40.0.0/16"),
+            peer=ec2.Peer.ipv4("10.20.0.0/16"),
             connection=ec2.Port.all_traffic()
         )
         sg.add_ingress_rule(peer=ec2.Peer.ipv4("0.0.0.0/0"), connection=ec2.Port.tcp(22))
@@ -70,7 +70,7 @@ class Ec2MultiNodesStack(core.Stack):
                             vpc=vpc,
                             key_name=key_name,
                             vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
-                            private_ip_address="10.40.0.%d" % (index + 10),
+                            private_ip_address="10.20.0.%d" % (index + 10),
                             security_group=sg,
                             block_devices=[
                                 ec2.BlockDevice(device_name="/dev/sda1", volume=ec2.BlockDeviceVolume.ebs(disk_size))]
